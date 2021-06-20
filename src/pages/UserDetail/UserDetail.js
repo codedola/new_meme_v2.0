@@ -2,13 +2,14 @@ import React, { useEffect } from "react";
 import "../../components/UserDetail/Style.UserDetail.scss";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useAuth } from "../../utilities/hook";
+import { useAuth, useUserID } from "../../utilities/hook";
 import LoadingPage from "../../components/Loading";
 import { actFetchPostUserByIDAsync } from "../../store/user/actions";
 //
 import { UserDetailPost, UserDetailInfo } from "../../components/UserDetail";
 export default function UserDetail() {
     useAuth();
+    const currUserID = useUserID();
     const dispatch = useDispatch();
     const userid = useParams()?.user_id;
     const isLoading = useSelector((state) => state.App.isLoading);
@@ -16,8 +17,10 @@ export default function UserDetail() {
     const userInfo = useSelector((state) => state.User.userInfo);
 
     useEffect(() => {
-        dispatch(actFetchPostUserByIDAsync({ userid }));
-    }, [userid, dispatch]);
+        if (currUserID) {
+            dispatch(actFetchPostUserByIDAsync({ userid }));
+        }
+    }, [userid, currUserID, dispatch]);
 
     return (
         <main>

@@ -32,7 +32,7 @@ export const actFetchLoginAsync = ({ email, password }) => {
             dispatch(actShowLoading());
             const response = await AuthService.Login({ email, password });
             dispatch(actHideLoading());
-            if (response.data.status === 200) {
+            if (response?.data?.status === 200) {
                 const { user, token, message } = response.data;
                 dispatch(actFetchLogin({ token }));
                 dispatch(actFetchCurrentUser({ user }));

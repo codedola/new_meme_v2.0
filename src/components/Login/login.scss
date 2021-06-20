@@ -11,11 +11,54 @@
     .ass1-login__content {
         .ass1-login__form {
             form {
-                .ass1-login__send a {
-                    text-decoration: none;
-                    letter-spacing: -1px;
-                    font-size: 14px;
+                .ass1-login__control {
+                    position: relative;
+                    margin-bottom: 32px;
+
+                    .form-control {
+                        position: relative;
+                    }
+
+                    svg {
+                        position: absolute;
+                        right: 10px;
+                        top: 50%;
+                        color: #747474;
+                        cursor: pointer;
+                        transform: translateY(-50%);
+                    }
+                    .message {
+                        position: absolute;
+                        left: 4px;
+                        font-weight: lighter;
+                        font-size: 14px;
+                        color: red;
+                        // margin-top: 2px;
+
+                    }
                 }
+                .ass1-login__send {
+                    a {
+                        text-decoration: none;
+                        letter-spacing: -1px;
+                        font-size: 14px;
+                        transition: none;
+                       
+                    }
+                    button {
+                        transition: all ease 0.2s;
+                        border-radius: 4px;
+                        width: 140px;
+                        font-weight: 400;
+                        background-color: #007bff;
+                        border-color: #007bff;
+                        &:hover {
+                            color: #fff;
+                            background-color: #2d91fc;
+                            border-color: #2d91fc;
+                        }
+                    }
+                } 
             }
         }
     }

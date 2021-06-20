@@ -20,10 +20,10 @@ export default function Login() {
         ({ email, password }) => {
             dispatch(actFetchLoginAsync({ email, password })).then((res) => {
                 if (res.ok) {
-                    NotificationManager.success(res.message);
+                    NotificationManager.success(res.message, null, 1000);
                     history.push(PATHS.HOMEPAGE);
                 } else {
-                    NotificationManager.error(res.message);
+                    NotificationManager.error(res.message, null, 1000);
                 }
             });
         },

@@ -1,13 +1,15 @@
 import React, { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../constants";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 const initValue = {
     email: "",
     password: "",
 };
 export default function LoginForm({ handleLogin }) {
     const [initForm, setInitForm] = useState(initValue);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleOnChangeData = useCallback(
         (keyFiled) => (e) => {
@@ -18,6 +20,10 @@ export default function LoginForm({ handleLogin }) {
         },
         [initForm]
     );
+
+    const handleShowPassword = useCallback(() => {
+        setShowPassword(!showPassword);
+    }, [showPassword]);
 
     const handleSubmit = useCallback(
         (e) => {
@@ -33,24 +39,35 @@ export default function LoginForm({ handleLogin }) {
         <div className='ass1-login__content'>
             <p>Đăng nhập</p>
             <div className='ass1-login__form'>
-                <form action='#'>
-                    <input
-                        type='text'
-                        className='form-control'
-                        placeholder='Email'
-                        onChange={handleOnChangeData("email")}
-                        value={initForm.email}
-                        required
-                    />
-                    <input
-                        type='password'
-                        onChange={handleOnChangeData("password")}
-                        value={initForm.password}
-                        className='form-control'
-                        placeholder='Mật khẩu'
-                        required
-                        autoComplete='off'
-                    />
+                <form>
+                    <div className='ass1-login__control'>
+                        <input
+                            type='text'
+                            className='form-control'
+                            placeholder='Email'
+                            onChange={handleOnChangeData("email")}
+                            value={initForm.email}
+                            required
+                        />
+                        <span className='message'></span>
+                    </div>
+                    <div className='ass1-login__control'>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            onChange={handleOnChangeData("password")}
+                            value={initForm.password}
+                            className='form-control'
+                            placeholder='Mật khẩu'
+                            required
+                            autoComplete='off'
+                        />
+                        <span className='message'></span>
+                        <FontAwesomeIcon
+                            onClick={handleShowPassword}
+                            icon={showPassword ? faEyeSlash : faEye}
+                        />
+                    </div>
+
                     <div className='ass1-login__send'>
                         <button
                             type='submit'
