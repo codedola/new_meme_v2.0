@@ -1,0 +1,43 @@
+
+
+.container {
+    .ass1-head-user {
+        .ass1-head-user__content {
+            .ass1-head-user__image {
+                height: 172px;
+                min-height: 172px;
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+            .ass1-head-user__info {
+                // theodoi doimatkhau profile
+                .ass1-head-user__info-head {
+                    margin-bottom: 10px;
+                    margin-top: 10px;
+                    a {
+                        text-decoration: none;
+                        color: gray;
+                        border-color: gray;
+                        transition: all ease 0.2s;
+                        &:hover {
+                            background-color: gray;
+                            border-color: gray;
+                            color: #fff ;
+                        }
+                    }
+                }
+                // theo doi dangtheodoi
+                .ass1-head-user__info-statistic{
+
+                }
+            }
+        }
+    }
+
+    .ass1-section__wrap {
+
+    }
+}

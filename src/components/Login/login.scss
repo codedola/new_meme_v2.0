@@ -1,0 +1,23 @@
+.ass1-login {
+    // Logo
+    .ass1-login__logo {
+        margin-bottom: 40px;
+        a {
+            text-decoration: none;
+        }
+    }
+
+    // Form
+    .ass1-login__content {
+        .ass1-login__form {
+            form {
+                .ass1-login__send a {
+                    text-decoration: none;
+                    letter-spacing: -1px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+
+}

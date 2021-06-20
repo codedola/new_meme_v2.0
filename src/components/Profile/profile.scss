@@ -1,0 +1,57 @@
+
+
+.ass1-login {
+    .ass1-login__content {
+        // title
+        .ass1-login__title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #828282;
+        }
+
+        // form
+        .ass1-login__form {
+            .avatar {
+                width: 160px;
+                height: 160px;
+                position: relative;
+                cursor: pointer;
+                &:hover {
+                   
+                    img {
+                        border-color: rgb(151, 151, 151);
+                    }
+                    svg {
+                        background: rgb(151, 151, 151);
+                    }
+                }
+               img {
+                overflow: hidden;
+                border-radius: 50%;
+                border: 2px solid #3a3b3c;
+                transition: all ease 0.3s;
+               } 
+               svg {
+                font-size: 40px;
+                position: absolute;
+                bottom: 25px;
+                right: 25px;
+                transform: translate(50%, 50%);
+                padding: 8px;
+                color:#fff;
+                background: #3a3b3c;
+                border-radius: 50%;
+                transition: all ease 0.3s;
+               }
+            }
+            form {
+                input#input_file {
+                    position: fixed;
+                    left: -1000px;
+                    opacity: 0;
+                    visibility: hidden;
+                }
+            }
+        }
+    }
+}

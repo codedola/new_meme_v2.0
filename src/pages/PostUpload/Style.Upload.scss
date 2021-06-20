@@ -1,0 +1,99 @@
+
+
+.ass1-section__content {
+    // form content
+    .post-upload__form {
+        .form-group {
+            textarea#postUploadContent {
+                margin: 0 2px;
+                border: 1px solid #d8d8d8;
+                border-radius: 8px;
+            }
+
+            .form-file {
+                position: absolute;
+                left: 1000px;
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+    }
+
+    .post-upload__list {
+        .list-group-item {
+            border: unset;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 20px;
+            color: #818182;
+            background-color: #ececf6;
+            transition: all .2s ease;
+            border-radius: 10px;
+            margin: 0 2px;
+            &:hover {
+                background-color: #dbdbe2;
+            }
+            svg {
+                margin-right: 8px;
+                font-size: 22px;
+                &.icon-image {
+                    color: #45bd62;
+                }
+                &.icon-cate {
+                    color: #f14729;
+                }
+            }
+            
+        }
+    }
+    .post-upload__categories {
+        margin-top: 20px;
+        margin-right: 4px;
+        margin-left: 4px;
+        span {
+            padding: 6px 12px;
+            color: #474747;
+            background-color: #dddddd;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            margin-right: 6px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+    }
+
+    .post-upload__image {
+       
+        position: relative;
+        margin-top: 24px;
+        border-radius: 10px;
+        overflow: hidden;
+        &::before {
+            content: '';
+            pointer-events: none;
+            background-color: rgba(0,0,0,0.4);
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            opacity: 0.2;
+            z-index: 2;
+            transition: all .3s ease;
+            border-radius: 6px;
+        }
+        &:hover:before {
+            opacity: 0.6;
+        }
+       
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+    }
+    .post-upload__btn {
+        margin-top: 20px;
+        height: unset;
+    }
+}

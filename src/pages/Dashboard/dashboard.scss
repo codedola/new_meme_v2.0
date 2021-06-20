@@ -1,0 +1,108 @@
+
+
+.dashboard {
+    margin-top: 60px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 8px 0px rgba(114, 114, 114, 0.4);
+    .row {
+        .dashboard__form {
+            width: 100%;
+            margin-bottom: 30px;
+            .dashboard__form-icon {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                div.form-icon {
+                    cursor: pointer;
+                    display:flex ;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 8px;
+                    border-radius: 4px;
+                    &:hover {
+                        background-color: #dadada;
+                    }
+                    svg {
+                        font-size: 20px;
+                        margin-right: 10px;
+                        margin-left: 10px;
+                        color: #676767;
+                    }
+                }
+
+                .form-icon__setting.isEdit {
+                    background-color: #dadada;
+                }
+                .form-icon__sortUp.active {
+                    background-color: #dadada;
+                }
+                .form-icon__sortDown.active {
+                    background-color: #dadada;
+                }
+
+               
+            }
+        }
+    }
+    .row {
+        .dashboard__table {
+           thead {
+               tr {
+                   th {
+                       color:#6d6d6d;
+                       font-weight: 600;
+                   }
+               }
+           }
+
+           tbody {
+               tr {
+                   td {
+                    color:#787878;
+                   }
+                    td.dashboard__table-active {
+                        .user__active {
+                            color: rgb(19, 136, 3);
+                            font-weight: 600;
+                            svg {
+                                margin-right: 2px;
+                            }
+                        }
+
+                        .user__deactive {
+                            color: rgb(196, 5, 5);
+                            font-weight: 600;
+                        }
+                    }
+                    td.dashboard__table-edit--user {
+                       cursor: pointer;
+                      
+                       text-align: center;
+                      
+                    }
+                    td.dashboard__table-stt {
+                        text-align: center;
+                    }
+               }
+           }
+        }
+
+        .dashboard__load-more {
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+            .btn {
+                border-radius: 2px;
+                min-width: 180px;
+                color: #808088;
+                border-color: #cccccc;
+                &:hover {
+                    background-color: #dadada;
+                    border-color: #f8f9fa;
+                }
+            }
+        }
+    }
+}
