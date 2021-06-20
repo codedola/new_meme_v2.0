@@ -29,7 +29,7 @@ export const actFetchCategoriesAsync = () => {
     return async (dispatch) => {
         try {
             const response = await CategoryService.getList();
-            if (response.data.status === 200) {
+            if (response?.data?.status === 200) {
                 const categories = response.data.categories;
                 const message = response.data.message;
                 dispatch(actFetchCategories({ categories }));

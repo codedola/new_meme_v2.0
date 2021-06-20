@@ -79,7 +79,7 @@ export default function PostEditForm({
                     disabled={isLoading}
                     onClick={!isLoading ? handleUploadEditPost : null}
                 >
-                    {isLoading ? "Đăng đang bài ..." : "Đăng bài chỉnh sửa"}
+                    {isLoading ? "Đang đang bài ..." : "Đăng bài chỉnh sửa"}
                 </Button>
             </div>
         </div>

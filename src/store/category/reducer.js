@@ -11,7 +11,7 @@ const initState = {
 export default function categoryReducer(stateCategory = initState, action) {
     switch (action.type) {
         case ACT_FETCH_LIST_POST_CATEGORY:
-            let { posts, currPage, pagesize } = action.payload;
+            const { posts, currPage, pagesize } = action.payload;
             return {
                 ...stateCategory,
                 PostPaging: {
@@ -24,14 +24,12 @@ export default function categoryReducer(stateCategory = initState, action) {
                 },
             };
         case ACT_FETCH_CATEGORIES:
-            let { categories } = action.payload;
+            const { categories } = action.payload;
             return {
                 ...stateCategory,
                 listCategories: categories,
             };
         default:
-            return {
-                ...stateCategory,
-            };
+            return stateCategory;
     }
 }
