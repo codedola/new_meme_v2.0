@@ -3,6 +3,7 @@ import { CommentService } from "../../services/commentService";
 const nameSpace = "comment:";
 
 export const ACT_FETCH_COMMENTS = `${nameSpace}ACT_FETCH_COMMENTS`;
+export const ACT_ON_SELECT_SORT_COMMENT = `${nameSpace}ACT_ON_SELECT_SORT_COMMENT`;
 export const actFetchComments = ({ comments }) => {
     return {
         type: ACT_FETCH_COMMENTS,
@@ -12,6 +13,15 @@ export const actFetchComments = ({ comments }) => {
     };
 };
 
+export const actOnSelectSortCommnet = ({ orderBy, orderDir }) => {
+    return {
+        type: ACT_ON_SELECT_SORT_COMMENT,
+        payload: {
+            orderBy,
+            orderDir,
+        },
+    };
+};
 // Action Async
 export const actFetchCommentAsync = ({
     postid,

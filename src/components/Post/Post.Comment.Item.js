@@ -49,12 +49,12 @@ export default function PostCommentItem({ comment }) {
                         <Icons.ThumbsDown />
                         <span>36</span>
                     </Link>
-                    <Link
+                    {/* <Link
                         to='/'
                         className='ass1-comments__btn-flag ass1-btn-icon'
                     >
                         <Icons.Flag />
-                    </Link>
+                    </Link> */}
                 </div>
             </div>
         </div>

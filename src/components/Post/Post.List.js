@@ -13,7 +13,7 @@ export default function PostList({ posts, ...restProps }) {
                             restProps.classCol || ""
                         }`}
                     >
-                        <PostItem post={post} />
+                        {post ? <PostItem post={post} /> : null}
                     </div>
                 );
             })}

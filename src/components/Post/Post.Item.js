@@ -10,7 +10,6 @@ import queryString from "query-string";
 import { useSelector, useDispatch } from "react-redux";
 import { NotificationManager } from "react-notifications";
 import { actActiveDeactivePostAsync } from "../../store/post/actions";
-
 //
 export default function PostItem({
     post,

@@ -1,41 +1,87 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useCallback } from "react";
+import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
-import { actFetchCommentAsync } from "../../store/comment/actions";
+import {
+    actFetchCommentAsync,
+    actOnSelectSortCommnet,
+} from "../../store/comment/actions";
+import listCommentSort from "../../store/comment/selector/listCommentSort";
 import PostCommentItem from "./Post.Comment.Item";
+import { useIcons } from "../../utilities/hook";
+
+//
 export default function PostCommentList({ postid }) {
     const dispatch = useDispatch();
-    const listComments = useSelector((state) => state.Comments.PostComments);
+    const Icons = useIcons();
+    const orderBy = useSelector((state) => state.Comments.PostComments.orderBy);
+    const orderDir = useSelector(
+        (state) => state.Comments.PostComments.orderDir
+    );
+    const listComments = useSelector((state) =>
+        listCommentSort(state.Comments.PostComments)
+    );
+
     const isHasComments = listComments && listComments.length > 0;
+
+    const [orderDirLocal, setOrderDirLocal] = useState(orderDir);
+    const [orderByLocal, setOrderByLocal] = useState(orderBy);
+
+    //
     useEffect(() => {
         dispatch(actFetchCommentAsync({ postid }));
     }, [postid, dispatch]);
+
+    useEffect(() => {
+        dispatch(
+            actOnSelectSortCommnet({
+                orderBy: orderByLocal,
+                orderDir: orderDirLocal,
+            })
+        );
+    }, [orderByLocal, orderDirLocal, dispatch]);
+
+    const onChangeSelect = useCallback((e) => {
+        setOrderByLocal(e.target.value);
+    }, []);
+
+    const onChangeTypeSort = useCallback(
+        (keyField) => () => {
+            setOrderDirLocal(keyField);
+        },
+        []
+    );
+
     return (
         <div className='ass1-comments'>
             <div className='ass1-comments__head'>
                 <div className='ass1-comments__title'>
-                    {listComments.length || 0} Bình luận
+                    <span>{listComments.length || 0} Bình luận</span>
                 </div>
                 <div className='ass1-comments__options'>
-                    <span>Sắp xếp theo:</span>
-                    <Link
-                        to='/'
-                        className='ass1-comments__btn-upvote ass1-btn-icon'
+                    <Form.Control
+                        as='select'
+                        onChange={onChangeSelect}
+                        value={orderBy}
                     >
-                        <i className='icon-Upvote' />
-                    </Link>
-                    <Link
-                        to='/'
-                        className='ass1-comments__btn-down ass1-btn-icon'
+                        <option value='name'>Name</option>
+                        <option value='latest'>Latest</option>
+                    </Form.Control>
+                    <div
+                        className={`form-icon form-icon__sortUp ${
+                            orderDirLocal === "asc" ? "active" : ""
+                        }`}
+                        onClick={onChangeTypeSort("asc")}
                     >
-                        <i className='icon-Downvote' />
-                    </Link>
-                    <Link
-                        to='/'
-                        className='ass1-comments__btn-expand ass1-btn-icon'
+                        <Icons.SortAmountUp />
+                    </div>
+                    <div
+                        className={`form-icon form-icon__sortDown ${
+                            orderDirLocal === "desc" ? "active" : ""
+                        }`}
+                        onClick={onChangeTypeSort("desc")}
                     >
-                        <i className='icon-Expand_all' />
-                    </Link>
+                        <Icons.SortAmountDown />
+                    </div>
                 </div>
             </div>
 

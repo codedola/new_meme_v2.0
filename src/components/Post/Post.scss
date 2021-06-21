@@ -241,6 +241,32 @@ $breakpoint-tablet: 768px;
         }
         .ass1-comments__head{
             padding: 8px;
+            justify-content: space-between;
+            .ass1-comments__title {
+
+            }
+            .ass1-comments__options {
+                display: flex;
+                align-items: center;
+                width: 34%;
+                .form-icon {
+                    margin-left: 10px;
+                    cursor: pointer;
+                    font-size: 20px;
+                    padding: 4px 10px;
+                    border-radius: 8px;
+                    &:hover {
+                        background-color: #dadada;
+                        
+                    }
+                }
+                .form-icon__sortUp.active {
+                    background-color: #dadada;
+                }
+                .form-icon__sortDown.active {
+                    background-color: #dadada;
+                }
+            }
         }
         //
         .ass1-comments__section {
