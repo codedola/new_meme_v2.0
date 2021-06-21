@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./dashboard.scss";
+// c
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
+// component app
 import DashboardForm from "../../components/Dashboard/Dashboard.Form";
 import DashboardTable from "../../components/Dashboard/Dashboard.Table";
 import DashboardModal from "../../components/Dashboard/Dashboard.Modal";
-
+import LoadPage from "../../components/Loading";
+import OnToTop from "../../components/OnToTop";
+//
 import { useDispatch, useSelector } from "react-redux";
 import { actFetchListMemberAsync } from "../../store/user/actions";
-import LoadPage from "../../components/Loading";
+
 export default function Dashboard() {
     const dispatch = useDispatch();
     const [isLoadPage, setIsLoadPage] = useState(false);
@@ -75,7 +79,7 @@ export default function Dashboard() {
             </Row>
 
             <DashboardModal {...propsDashboardModal} />
-
+            <OnToTop />
             <LoadPage isLoading={isLoadPage} />
         </Container>
     );

@@ -1,0 +1,30 @@
+ 
+.OnToTop {
+    position: fixed;
+    left: 20px;
+    bottom: 10%;
+    width: 56px;
+    height: 56px;
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all ease 0.1s;
+    &:hover {
+        border: 1px solid rgb(153, 153, 153);
+        svg {
+            color: rgb(129, 129, 129);
+        }
+    }
+ 
+    svg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-weight: 700;
+        font-size: 30px;
+        color: rgb(226, 226, 226);
+        transform: translate(-50%, -50%);
+        transition: all ease 0.1s;
+    }
+   
+}

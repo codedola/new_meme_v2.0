@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 import PostList from "../../components/Post/Post.List";
 import PostRecent from "../../components/Post/Post.Recent";
 import LoadingPage from "../../components/Loading";
+import OnToTop from "../../components/OnToTop";
 //
 import { useDispatch, useSelector } from "react-redux";
 import { actFetchListPostAsync } from "../../store/post/actions";
@@ -57,6 +58,7 @@ export default function HomePage() {
                     </Col>
                 </Row>
             </Container>
+            <OnToTop />
             <LoadingPage isLoading={isLoading} />
         </main>
     );

@@ -7,6 +7,8 @@ import Button from "react-bootstrap/Button";
 // component app
 import LoadingPage from "../../components/Loading";
 import PostList from "../../components/Post/Post.List";
+import OnToTop from "../../components/OnToTop";
+
 //
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -52,6 +54,7 @@ export default function PostCategories() {
                     </Col>
                 </Row>
             </Container>
+            <OnToTop />
             <LoadingPage isLoading={loadPage} />
         </main>
     );

@@ -3,10 +3,12 @@ import "../../components/UserDetail/Style.UserDetail.scss";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth, useUserID } from "../../utilities/hook";
-import LoadingPage from "../../components/Loading";
 import { actFetchPostUserByIDAsync } from "../../store/user/actions";
-//
+// component
+import LoadingPage from "../../components/Loading";
 import { UserDetailPost, UserDetailInfo } from "../../components/UserDetail";
+import OnToTop from "../../components/OnToTop";
+//
 export default function UserDetail() {
     useAuth();
     const currUserID = useUserID();
@@ -31,6 +33,7 @@ export default function UserDetail() {
                 />
                 <UserDetailPost userPosts={userPosts[userid]} />
             </div>
+            <OnToTop />
             <LoadingPage isLoading={isLoading} />
         </main>
     );

@@ -13,6 +13,7 @@ import Col from "react-bootstrap/Col";
 // component app
 import PostList from "../../components/Post/Post.List";
 import LoadingPage from "../../components/Loading";
+import OnToTop from "../../components/OnToTop";
 //
 //
 export default function SearchResult() {
@@ -64,6 +65,7 @@ export default function SearchResult() {
                     </Col>
                 </Row>
             </Container>
+            <OnToTop />
             <LoadingPage isLoading={loadPage} />
         </main>
     );
