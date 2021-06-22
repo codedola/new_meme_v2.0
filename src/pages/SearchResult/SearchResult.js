@@ -14,6 +14,8 @@ import Col from "react-bootstrap/Col";
 import PostList from "../../components/Post/Post.List";
 import LoadingPage from "../../components/Loading";
 import OnToTop from "../../components/OnToTop";
+import PageNotFound from "../../components/PageNotFound";
+
 //
 //
 export default function SearchResult() {
@@ -59,11 +61,15 @@ export default function SearchResult() {
     return (
         <main>
             <Container>
-                <Row>
-                    <Col lg={8}>
-                        <PostList posts={listPostActive} />
-                    </Col>
-                </Row>
+                {posts?.length > 0 ? (
+                    <Row>
+                        <Col lg={8}>
+                            <PostList posts={listPostActive} />
+                        </Col>
+                    </Row>
+                ) : (
+                    <PageNotFound />
+                )}
             </Container>
             <OnToTop />
             <LoadingPage isLoading={loadPage} />

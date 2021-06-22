@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 import LoadingPage from "../../components/Loading";
 import PostList from "../../components/Post/Post.List";
 import OnToTop from "../../components/OnToTop";
-
+import PageNotFound from "../../components/PageNotFound";
 //
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -36,24 +36,29 @@ export default function PostCategories() {
     return (
         <main>
             <Container>
-                <Row>
-                    <Col lg={8}>
-                        <PostList posts={posts} />
-                        {!isLoadMore ? (
-                            <Button
-                                variant='outline-primary'
-                                className='load-more'
-                                disabled={loadMore}
-                                onClick={!loadMore ? handleLoadMore : null}
-                            >
-                                <span>
-                                    {loadMore ? "Đang tải ..." : "Xem thêm"}{" "}
-                                </span>
-                            </Button>
-                        ) : null}
-                    </Col>
-                </Row>
+                {posts?.length > 0 ? (
+                    <Row>
+                        <Col lg={8}>
+                            <PostList posts={posts} />
+                            {!isLoadMore ? (
+                                <Button
+                                    variant='outline-primary'
+                                    className='load-more'
+                                    disabled={loadMore}
+                                    onClick={!loadMore ? handleLoadMore : null}
+                                >
+                                    <span>
+                                        {loadMore ? "Đang tải ..." : "Xem thêm"}{" "}
+                                    </span>
+                                </Button>
+                            ) : null}
+                        </Col>
+                    </Row>
+                ) : (
+                    <PageNotFound />
+                )}
             </Container>
+
             <OnToTop />
             <LoadingPage isLoading={loadPage} />
         </main>

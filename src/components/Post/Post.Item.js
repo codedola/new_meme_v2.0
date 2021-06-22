@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import "./Post.scss";
-import { Link, useRouteMatch, useLocation } from "react-router-dom";
+import { Link, useRouteMatch, useLocation, useHistory } from "react-router-dom";
 import { PATHS } from "../../constants";
 import Badge from "react-bootstrap/Badge";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -14,6 +14,7 @@ import { actActiveDeactivePostAsync } from "../../store/post/actions";
 export default function PostItem({
     post,
     isPostDetail = false,
+    isPostRecent = false,
     userInfo,
     ...restProps
 }) {
@@ -22,21 +23,28 @@ export default function PostItem({
     const currentUserID = useUserID();
     const dispatch = useDispatch();
     const location = useLocation();
+    const history = useHistory();
 
+    const avatarElement = useRef(null);
     const match = useRouteMatch(PATHS.SEARCH_RESULT);
     const currentUser = useSelector((state) => state.User.currentUser);
 
     const fullnamePost = post?.fullname || userInfo?.fullname;
-
+    const idxDefaultAvatar = post?.PID % IMAGE_DEFAULT.avatar.length;
     const linkPostDetail = PATHS.POST_DETAIL.replace(":post_id", post?.PID);
     const linkUserDetail = PATHS.USER_DETAIL.replace(":user_id", post?.USERID);
     //
+
+    //
+
     const query = useMemo(() => {
         const parsed = queryString.parse(location.search);
         if (parsed.q) {
             return parsed.q.toLowerCase();
         }
     }, [location]);
+
+    //
     const renderFullName = useMemo(() => {
         if (match && query) {
             return (
@@ -73,8 +81,21 @@ export default function PostItem({
                 />
             );
         }
-        return <p className='ass1-section__text'>{post?.post_content}</p>;
-    }, [post, query, match]);
+        return (
+            <p
+                className='ass1-section__text'
+                onClick={
+                    isPostRecent
+                        ? () => {
+                              history.push(linkPostDetail);
+                          }
+                        : null
+                }
+            >
+                {post?.post_content}
+            </p>
+        );
+    }, [post, query, match, history, isPostRecent, linkPostDetail]);
 
     const handleActiveDeactive = () => {
         const postid = post?.PID;
@@ -94,6 +115,8 @@ export default function PostItem({
     };
 
     //
+
+    //
     if (!post) return null;
     const {
         time_added: created,
@@ -108,82 +131,99 @@ export default function PostItem({
 
     const categories = restProps.categories;
     //image default
-    const idxDefaultAvatar = postID % IMAGE_DEFAULT.avatar.length;
+
     const idxDefaultPost = postID % IMAGE_DEFAULT.post.length;
     const avatar =
         userAvatar ||
         userInfo?.profilepicture ||
         IMAGE_DEFAULT.avatar[idxDefaultAvatar];
+
     const urlImg = blogImg || IMAGE_DEFAULT.post[idxDefaultPost];
 
     const { relativeTimeStr } = dateTime({ date_time: created });
 
     return (
         <div className='ass1-section'>
-            <div className={`ass1-section__head ${match ? "read-only" : ""}`}>
-                <Link to={linkUserDetail} className='post_item_avatar'>
-                    <img src={avatar} alt='avatar' />
-                </Link>
-                <div className='post_item_info'>
-                    {renderFullName}
-                    <span className='ass1-section__passed'>
-                        <span>{relativeTimeStr}.</span>
-                        {activePost === "0" ? (
-                            <Icons.Lock />
-                        ) : (
-                            <Icons.GlobeAmericas />
-                        )}
-                    </span>
-                </div>
-                <div className='post_item-more'>
-                    <span>
-                        <Icons.EllipsisH />
-                    </span>
-                    <ListGroup className='post_item-list'>
-                        <ListGroup.Item>
-                            <Link
-                                to={PATHS.POST_EDIT.replace(":post_id", postID)}
-                            >
-                                <Icons.Edit />
-                                Chỉnh sửa bài viết
-                            </Link>
-                        </ListGroup.Item>
-                        {/* Active Post */}
-                        {currentUser?.USERID === userID ? (
-                            <ListGroup.Item onClick={handleActiveDeactive}>
-                                {activePost === "1" ? (
-                                    <>
-                                        <Icons.Lock />
-                                        Chỉ mình tôi
-                                    </>
-                                ) : (
-                                    <>
-                                        <Icons.GlobeAmericas />
-                                        Cộng đồng
-                                    </>
-                                )}
-                            </ListGroup.Item>
-                        ) : null}
-
-                        {/* ---- */}
-                        {currentUser?.USERID === userID ? (
+            {!isPostRecent ? (
+                <div
+                    className={`ass1-section__head ${match ? "read-only" : ""}`}
+                >
+                    <Link to={linkUserDetail} className='post_item_avatar'>
+                        <img
+                            ref={avatarElement}
+                            src={avatar}
+                            alt='avatar'
+                            className={`post__avatar-meme${postID}`}
+                        />
+                    </Link>
+                    <div className='post_item_info'>
+                        {renderFullName}
+                        <span className='ass1-section__passed'>
+                            <span>{relativeTimeStr}.</span>
+                            {activePost === "0" ? (
+                                <Icons.Lock />
+                            ) : (
+                                <Icons.GlobeAmericas />
+                            )}
+                        </span>
+                    </div>
+                    <div className='post_item-more'>
+                        <span>
+                            <Icons.EllipsisH />
+                        </span>
+                        <ListGroup className='post_item-list'>
                             <ListGroup.Item>
                                 <Link
-                                    to={PATHS.POST_DELETE.replace(
+                                    to={PATHS.POST_EDIT.replace(
                                         ":post_id",
                                         postID
                                     )}
                                 >
-                                    <Icons.TrashAlt />
-                                    Xóa bài viết
+                                    <Icons.Edit />
+                                    Chỉnh sửa bài viết
                                 </Link>
                             </ListGroup.Item>
-                        ) : null}
-                    </ListGroup>
-                </div>
-            </div>
+                            {/* Active Post */}
+                            {currentUser?.USERID === userID ? (
+                                <ListGroup.Item onClick={handleActiveDeactive}>
+                                    {activePost === "1" ? (
+                                        <>
+                                            <Icons.Lock />
+                                            Chỉ mình tôi
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Icons.GlobeAmericas />
+                                            Cộng đồng
+                                        </>
+                                    )}
+                                </ListGroup.Item>
+                            ) : null}
 
-            <div className='ass1-section__content'>
+                            {/* ---- */}
+                            {currentUser?.USERID === userID ? (
+                                <ListGroup.Item>
+                                    <Link
+                                        to={PATHS.POST_DELETE.replace(
+                                            ":post_id",
+                                            postID
+                                        )}
+                                    >
+                                        <Icons.TrashAlt />
+                                        Xóa bài viết
+                                    </Link>
+                                </ListGroup.Item>
+                            ) : null}
+                        </ListGroup>
+                    </div>
+                </div>
+            ) : null}
+
+            <div
+                className={`ass1-section__content${
+                    isPostRecent ? "--post-recent" : ""
+                }`}
+            >
                 {renderContent}
                 {categoryValue && (
                     <Badge variant='secondary'>#{categoryValue}</Badge>

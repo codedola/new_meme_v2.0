@@ -1,0 +1,29 @@
+
+
+.page-not-found_row {
+    margin-top: 60px;
+
+    .go-home {
+        h1 {
+            color: grey;
+            font-weight: lighter;
+            margin-bottom: 50px;
+
+        }
+
+        a {
+            display: inline-block;
+            text-align: center;
+            font-weight: 600;
+            width: 150px;
+            padding: 6px 16px;
+            border:  2px solid #35e079bb;
+            text-decoration: none;
+            border-radius: 12px;
+            &:hover {
+                background-color:#35e079bb ;
+                color: #000;
+            }
+        }
+    }
+}

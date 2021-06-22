@@ -25,6 +25,7 @@ export default function PostDetail() {
     const history = useHistory();
     const [loadPage, setLoadPage] = useState(false);
     const [isLoading, setLoading] = useState(false);
+
     const PostDetail = useSelector((state) => state.Posts.PostDetail);
     const currentUser = useSelector((state) => state.User.currentUser);
     const post = PostDetail?.post;
@@ -105,6 +106,7 @@ export default function PostDetail() {
                                         className='post_item_avatar'
                                     />
                                 </Link>
+
                                 <hr />
                                 <Card.Body>
                                     <Card.Title>

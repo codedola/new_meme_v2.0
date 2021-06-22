@@ -138,12 +138,12 @@ export const actFetchPostUserByIDAsync = ({ userid }) => {
                     posts: state.User.userPosts[userid],
                 };
             } else {
-                dispatch(actShowLoading());
+                // dispatch(actShowLoading());
                 const [resPostUser, resInfoUser] = await Promise.all([
                     PostService.getListPostUserID({ userid }),
                     UserService.getUserByID({ userid }),
                 ]);
-                dispatch(actHideLoading());
+                // dispatch(actHideLoading());
 
                 if (
                     resPostUser.data.status === 200 &&
