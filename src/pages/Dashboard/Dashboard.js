@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./dashboard.scss";
-// c
+//
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
@@ -13,8 +13,9 @@ import OnToTop from "../../components/OnToTop";
 //
 import { useDispatch, useSelector } from "react-redux";
 import { actFetchListMemberAsync } from "../../store/user/actions";
-
+import { useAdmin } from "../../utilities/hook";
 export default function Dashboard() {
+    useAdmin();
     const dispatch = useDispatch();
     const [isLoadPage, setIsLoadPage] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
