@@ -4,10 +4,10 @@ import { PATHS } from "../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
-// default value init
-
-const reEmail =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+import {
+    PASSWORD_VALIDATOR,
+    EMAIL_VALIDATOR,
+} from "../../constants/FormValidator";
 
 export default function LoginForm({ handleLogin }) {
     const [showPassword, setShowPassword] = useState(false);
@@ -42,17 +42,17 @@ export default function LoginForm({ handleLogin }) {
                             placeholder='Email'
                             {...register("email", {
                                 required: true,
-                                pattern: reEmail,
+                                pattern: EMAIL_VALIDATOR.pattern,
                             })}
                         />{" "}
                         {errors?.email?.type === "required" && (
                             <span className='message'>
-                                Yêu cầu nhập trường này !
+                                {EMAIL_VALIDATOR.messRequired}
                             </span>
                         )}
                         {errors?.email?.type === "pattern" && (
                             <span className='message'>
-                                email không hợp lệ !
+                                {EMAIL_VALIDATOR.messInvalid}
                             </span>
                         )}
                     </div>
@@ -67,7 +67,7 @@ export default function LoginForm({ handleLogin }) {
                         />
                         {errors?.password?.type === "required" && (
                             <span className='message'>
-                                Yêu cầu nhập trường này !
+                                {PASSWORD_VALIDATOR.messRequired}
                             </span>
                         )}
 

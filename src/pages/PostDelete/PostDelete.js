@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import "../ChangePassWord/Style.Password.scss";
 import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,24 +8,28 @@ import { actDeletePostAsync } from "../../store/post/actions";
 import LoadPage from "../../components/Loading";
 import { useParams, useHistory } from "react-router-dom";
 import { PATHS } from "../../constants";
+import { useForm } from "react-hook-form";
+// default value init
 
+const reEmail =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export default function PostDelete() {
     useAuth();
     const postid = useParams().post_id;
     const dispatch = useDispatch();
     const history = useHistory();
-    const [emailConfirm, setEmailConfirm] = useState("");
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
     const isLoading = useSelector((state) => state.App.isLoading);
     const currentUser = useSelector((state) => state.User.currentUser);
     const email = currentUser?.email;
     const userid = currentUser?.USERID;
 
-    const onChangeData = useCallback((e) => {
-        setEmailConfirm(e.target.value);
-    }, []);
-
-    const handleDeletePost = () => {
+    const handleDeletePost = ({ email: emailConfirm }) => {
         if (emailConfirm.trim() === email) {
             dispatch(actDeletePostAsync({ postid })).then((res) => {
                 if (res.ok) {
@@ -40,7 +44,7 @@ export default function PostDelete() {
                 }
             });
         } else {
-            NotificationManager.error("Email không hợp lệ", null, 1000);
+            NotificationManager.error("Email không chính xác", null, 1000);
         }
     };
 
@@ -54,18 +58,29 @@ export default function PostDelete() {
                             <div className='form__group'>
                                 <input
                                     type='text'
-                                    value={emailConfirm}
-                                    onChange={onChangeData}
                                     className='form-control'
                                     placeholder='Nhập email của bạn'
-                                    required
+                                    {...register("email", {
+                                        required: true,
+                                        pattern: reEmail,
+                                    })}
                                 />
+                                {errors?.email?.type === "required" && (
+                                    <span className='message'>
+                                        Yêu cầu nhập trường này !
+                                    </span>
+                                )}
+                                {errors?.email?.type === "pattern" && (
+                                    <span className='message'>
+                                        email không hợp lệ !
+                                    </span>
+                                )}
                             </div>
 
                             <div className='ass1-login__send justify-content-center'>
                                 <Button
                                     variant='success'
-                                    onClick={handleDeletePost}
+                                    onClick={handleSubmit(handleDeletePost)}
                                 >
                                     Xác nhận
                                 </Button>

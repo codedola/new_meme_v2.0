@@ -10,7 +10,11 @@ import { PATHS } from "../../constants";
 import LoadPage from "../../components/Loading";
 import { NotificationManager } from "react-notifications";
 import { useForm } from "react-hook-form";
-
+import {
+    FULLNAME_VALIDATOR,
+    PASSWORD_VALIDATOR,
+    EMAIL_VALIDATOR,
+} from "../../constants/FormValidator";
 const reEmail =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 //
@@ -80,7 +84,7 @@ export default function Register() {
                                 />
                                 {errors?.fullname?.type === "required" && (
                                     <span className='message'>
-                                        Yêu cầu nhập trường này !
+                                        {FULLNAME_VALIDATOR.messRequired}
                                     </span>
                                 )}
                             </div>
@@ -91,17 +95,17 @@ export default function Register() {
                                     placeholder='Email'
                                     {...register("email", {
                                         required: true,
-                                        pattern: reEmail,
+                                        pattern: EMAIL_VALIDATOR.pattern,
                                     })}
                                 />
                                 {errors?.email?.type === "required" && (
                                     <span className='message'>
-                                        Yêu cầu nhập trường này !
+                                        {EMAIL_VALIDATOR.messRequired}
                                     </span>
                                 )}
                                 {errors?.email?.type === "pattern" && (
                                     <span className='message'>
-                                        email không hợp lệ !
+                                        {EMAIL_VALIDATOR.messInvalid}
                                     </span>
                                 )}
                             </div>
@@ -112,17 +116,17 @@ export default function Register() {
                                     placeholder='Mật khẩu'
                                     {...register("password", {
                                         required: true,
-                                        minLength: 6,
+                                        minLength: PASSWORD_VALIDATOR.minLength,
                                     })}
                                 />
                                 {errors?.password?.type === "required" && (
                                     <span className='message'>
-                                        Yêu cầu nhập trường này !
+                                        {PASSWORD_VALIDATOR.messRequired}
                                     </span>
                                 )}
                                 {errors?.password?.type === "minLength" && (
                                     <span className='message'>
-                                        Mật khẩu ít nhất 6 ký tự !
+                                        {PASSWORD_VALIDATOR.messMinLength}
                                     </span>
                                 )}
                                 <FontAwesomeIcon
@@ -141,7 +145,7 @@ export default function Register() {
                                 />
                                 {errors?.repassword?.type === "required" && (
                                     <span className='message'>
-                                        Yêu cầu nhập trường này !
+                                        {PASSWORD_VALIDATOR.messRequired}
                                     </span>
                                 )}
                                 <FontAwesomeIcon

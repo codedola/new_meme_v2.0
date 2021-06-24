@@ -8,7 +8,7 @@ import { actChangePasswordAsync } from "../../store/auth/actions";
 import { useAuth } from "../../utilities/hook";
 import { NotificationManager } from "react-notifications";
 import { useForm } from "react-hook-form";
-
+import { PASSWORD_VALIDATOR } from "../../constants/FormValidator";
 export default function ChangePassWord() {
     useAuth();
     const dispatch = useDispatch();
@@ -74,7 +74,7 @@ export default function ChangePassWord() {
                                 />
                                 {errors?.oldPassword?.type === "required" && (
                                     <span className='message'>
-                                        Yêu cầu nhập trường này !
+                                        {PASSWORD_VALIDATOR.messRequired}
                                     </span>
                                 )}
 
@@ -94,7 +94,7 @@ export default function ChangePassWord() {
                                 />
                                 {errors?.newPassword?.type === "required" && (
                                     <span className='message'>
-                                        Yêu cầu nhập trường này !
+                                        {PASSWORD_VALIDATOR.messRequired}
                                     </span>
                                 )}
                                 <FontAwesomeIcon
@@ -114,7 +114,7 @@ export default function ChangePassWord() {
                                 />
                                 {errors?.reNewPassword?.type === "required" && (
                                     <span className='message'>
-                                        Yêu cầu nhập trường này !
+                                        {PASSWORD_VALIDATOR.messRequired}
                                     </span>
                                 )}
                                 <FontAwesomeIcon
