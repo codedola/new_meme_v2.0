@@ -72,13 +72,13 @@ export default function UserDetailInfo({ userInfo, countPost }) {
                             <i>
                                 <FontAwesomeIcon icon={faPaperPlane} />
                             </i>
-                            <span>Theo dõi: 99999</span>
+                            <span>Theo dõi: 0</span>
                         </div>
                         <div className='ass1-btn-icon'>
                             <i>
                                 <FontAwesomeIcon icon={faUserCheck} />
                             </i>
-                            <span>Đang theo dõi: 999</span>
+                            <span>Đang theo dõi: 0</span>
                         </div>
                     </div>
                     <p>{userInfo?.description || "No description"}</p>

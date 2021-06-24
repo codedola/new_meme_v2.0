@@ -1,6 +1,7 @@
 import { PostService } from "../../services/postService";
 import { UserService } from "../../services/userService";
 import { actShowLoading, actHideLoading } from "../app/actions";
+import { actSetUserDetailData } from "../user/actions";
 const nameSpace = "post:";
 export const ACT_FETCH_LIST_POST = `${nameSpace}ACT_FETCH_LIST_POST`;
 export const ACT_FETCH_POST_DETAIL = `${nameSpace}ACT_FETCH_POST_DETAIL`;
@@ -209,7 +210,7 @@ export const actEditPostAsync = ({
     obj_image,
     url_image,
 }) => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
         try {
             dispatch(actShowLoading());
 
@@ -233,6 +234,18 @@ export const actEditPostAsync = ({
                 const { message, data } = response.data;
                 const { post, categories } = data;
 
+                const res = await PostService.getListPostUserID({
+                    userid: post.USERID,
+                });
+
+                dispatch(
+                    actSetUserDetailData({
+                        userInfo: getState().User.userInfo[post.USERID],
+                        userPosts:
+                            res?.data?.status === 200 ? res.data.posts : null,
+                    })
+                );
+
                 return {
                     ok: true,
                     message,
@@ -249,7 +262,7 @@ export const actEditPostAsync = ({
             dispatch(actHideLoading());
             return {
                 ok: false,
-                message: "Có lỗi xảy ra catch!",
+                message: "Có lỗi xảy ra catch ee!",
             };
         }
     };

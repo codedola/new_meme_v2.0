@@ -1,6 +1,7 @@
 import { UserService } from "../../services/userService";
 import { PostService } from "../../services/postService";
 import { actHideLoading, actShowLoading } from "../app/actions";
+import { actFetchListPostAsync } from "../post/actions";
 //
 const nameSpace = "user:";
 export const ACT_FETCH_CURRENT_USER = `${nameSpace}ACT_FETCH_CURRENT_USER`;
@@ -85,48 +86,6 @@ export const actFetchUserByIDAsync = ({ userid }) => {
         } catch (error) {}
     };
 };
-
-export const actUpdateProfileAsync = ({
-    avatar,
-    fullname,
-    gender,
-    description,
-}) => {
-    return async (dispatch) => {
-        try {
-            const formData = new FormData();
-
-            formData.append("fullname", fullname);
-            formData.append("gender", gender);
-            formData.append("description", description);
-            if (avatar) {
-                formData.append("avatar", avatar);
-            }
-
-            const response = await UserService.updateProfile(formData);
-            if (response?.data?.status === 200) {
-                const { user } = response.data;
-                dispatch(actFetchCurrentUser({ user }));
-                dispatch(actSetUserDetailData({ userInfo: user }));
-                return {
-                    ok: true,
-                    message: "Update thành công",
-                };
-            } else {
-                return {
-                    ok: false,
-                    message: "Update thất bại",
-                };
-            }
-        } catch (error) {
-            return {
-                ok: false,
-                error,
-            };
-        }
-    };
-};
-
 export const actFetchPostUserByIDAsync = ({ userid }) => {
     return async (dispatch, getState) => {
         try {
@@ -138,12 +97,12 @@ export const actFetchPostUserByIDAsync = ({ userid }) => {
                     posts: state.User.userPosts[userid],
                 };
             } else {
-                // dispatch(actShowLoading());
+                dispatch(actShowLoading());
                 const [resPostUser, resInfoUser] = await Promise.all([
                     PostService.getListPostUserID({ userid }),
                     UserService.getUserByID({ userid }),
                 ]);
-                // dispatch(actHideLoading());
+                dispatch(actHideLoading());
 
                 if (
                     resPostUser?.data?.status === 200 &&
@@ -171,6 +130,60 @@ export const actFetchPostUserByIDAsync = ({ userid }) => {
             }
         } catch (error) {
             console.log("chay vao catch error");
+        }
+    };
+};
+
+export const actUpdateProfileAsync = ({
+    avatar,
+    fullname,
+    gender,
+    description,
+}) => {
+    return async (dispatch) => {
+        try {
+            const formData = new FormData();
+
+            formData.append("fullname", fullname);
+            formData.append("gender", gender);
+            formData.append("description", description);
+            if (avatar) {
+                formData.append("avatar", avatar);
+            }
+
+            const response = await UserService.updateProfile(formData);
+            if (response?.data?.status === 200) {
+                const { user } = response.data;
+                await dispatch(actFetchListPostAsync());
+
+                const res = await PostService.getListPostUserID({
+                    userid: user.USERID,
+                });
+
+                dispatch(actFetchCurrentUser({ user }));
+                dispatch(
+                    actSetUserDetailData({
+                        userInfo: user,
+                        userPosts:
+                            res?.data?.status === 200 ? res.data.posts : null,
+                    })
+                );
+
+                return {
+                    ok: true,
+                    message: "Update thành công",
+                };
+            } else {
+                return {
+                    ok: false,
+                    message: "Update thất bại",
+                };
+            }
+        } catch (error) {
+            return {
+                ok: false,
+                error,
+            };
         }
     };
 };
