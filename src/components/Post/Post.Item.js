@@ -226,7 +226,7 @@ export default function PostItem({
                     isPostRecent ? "--post-recent" : ""
                 }`}
             >
-                {!isSkeletonCard ? renderContent : <Skeleton count={2} />}
+                {!isSkeletonCard ? renderContent : <Skeleton count={3} />}
                 {categoryValue && (
                     <Badge variant='secondary'>#{categoryValue}</Badge>
                 )}

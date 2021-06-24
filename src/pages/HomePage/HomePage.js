@@ -11,7 +11,7 @@ import PostRecent from "../../components/Post/Post.Recent";
 import LoadingPage from "../../components/Loading";
 import OnToTop from "../../components/OnToTop";
 //
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { actFetchListPostAsync } from "../../store/post/actions";
 import { usePostPaging } from "../../utilities/hook";
 //
@@ -48,7 +48,7 @@ export default function HomePage() {
                         <PostList posts={listPostActive} />
                         {!isLoadMore ? (
                             <Button
-                                variant='outline-primary'
+                                variant='outline-secondary'
                                 className='load-more'
                                 disabled={loadMore}
                                 onClick={!loadMore ? handleLoadMore : null}

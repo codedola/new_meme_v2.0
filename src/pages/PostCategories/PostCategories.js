@@ -44,7 +44,7 @@ export default function PostCategories() {
                             <PostList posts={posts} />
                             {!isLoadMore ? (
                                 <Button
-                                    variant='outline-primary'
+                                    variant='outline-secondary'
                                     className='load-more'
                                     disabled={loadMore}
                                     onClick={!loadMore ? handleLoadMore : null}

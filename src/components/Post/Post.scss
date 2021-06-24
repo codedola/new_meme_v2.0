@@ -342,6 +342,10 @@ $breakpoint-tablet: 768px;
                 .ass1-section__content--post-recent {
                     display: flex;
                     align-items: center;
+                    span {
+                        order: 2;
+                        flex: 1;
+                    }
 
                     .ass1-section__text {
                         order: 2;
