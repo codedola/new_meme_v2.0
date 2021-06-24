@@ -302,7 +302,15 @@ $breakpoint-tablet: 768px;
 
 // Post Card Info author
 .ass1-section__list {
+  
+    &.stickySidebar {
+         // sticky for homepage
+        position: -webkit-sticky;
+        position: sticky;
+        top: 20px;
+    }
     .post__info-author.card {
+         
         a {
             display: flex;
             justify-content: center;
@@ -315,6 +323,7 @@ $breakpoint-tablet: 768px;
             }
         }
         .card-body {
+           
             .card-text {
                  margin-bottom: 8px;
                  span {
@@ -326,16 +335,19 @@ $breakpoint-tablet: 768px;
             .ass1-section {
                 cursor: pointer;
                 box-shadow: 0px 2px 6px -2px #666666a6;
+                &:hover {
+                    font-weight: 500;
+                    background-color: rgb(238, 252, 252);
+                }
                 .ass1-section__content--post-recent {
                     display: flex;
                     align-items: center;
-
 
                     .ass1-section__text {
                         order: 2;
                         margin-bottom: unset;
                         display: -webkit-box;
-                       font-size: 14px;
+                        font-size: 14px;
                         -webkit-line-clamp: 2;
                         -webkit-box-orient: vertical;  
                         overflow: hidden;
@@ -346,13 +358,13 @@ $breakpoint-tablet: 768px;
                         margin-right: 10px;
                         margin-top: unset;
                        
-                       
                         a {
                             margin-top: unset;
                           
                             img {
-                               width: 100px;
-                               height: 100%;
+                                width: 110px;
+                                height: 64px;
+                                object-fit: cover;
                             }
                         }
                        

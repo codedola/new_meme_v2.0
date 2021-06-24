@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 // react-bootstrap
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 // component app
 import PostList from "../../components/Post/Post.List";
 import PostRecent from "../../components/Post/Post.Recent";
@@ -17,16 +18,19 @@ import { usePostPaging } from "../../utilities/hook";
 
 export default function HomePage() {
     const dispatch = useDispatch();
-    const isLoading = useSelector((state) => state.App.isLoading);
+    const [loadingFirst, setLoadingFirst] = useState(false);
 
-    const { posts, loadMore, handleLoadMore } = usePostPaging({
+    const { posts, loadMore, handleLoadMore, isLoadMore } = usePostPaging({
         actFetchAsync: actFetchListPostAsync,
         keyFieldReducer: "Posts",
     });
 
     useEffect(() => {
         if (posts.length > 0) return;
-        dispatch(actFetchListPostAsync());
+        setLoadingFirst(true);
+        dispatch(actFetchListPostAsync()).finally(() => {
+            setLoadingFirst(false);
+        });
     }, [dispatch, posts]);
 
     const listPostActive = useMemo(() => {
@@ -42,16 +46,32 @@ export default function HomePage() {
                 <Row>
                     <Col lg={8}>
                         <PostList posts={listPostActive} />
-                        <Button
-                            variant='outline-primary'
-                            className='load-more'
-                            disabled={loadMore}
-                            onClick={!loadMore ? handleLoadMore : null}
-                        >
-                            <span>
-                                {loadMore ? "Đang tải ..." : "Xem thêm"}
-                            </span>
-                        </Button>
+                        {!isLoadMore ? (
+                            <Button
+                                variant='outline-primary'
+                                className='load-more'
+                                disabled={loadMore}
+                                onClick={!loadMore ? handleLoadMore : null}
+                            >
+                                {/* <span>
+                                    {loadMore ? "Đang tải ..." : "Xem thêm"}
+                                </span> */}
+                                {loadMore ? (
+                                    <>
+                                        <Spinner
+                                            as='span'
+                                            animation='border'
+                                            size='sm'
+                                            role='status'
+                                            aria-hidden='true'
+                                        />{" "}
+                                        Đang tải ...
+                                    </>
+                                ) : (
+                                    "Xem thêm"
+                                )}
+                            </Button>
+                        ) : null}
                     </Col>
                     <Col lg={4}>
                         <PostRecent />
@@ -59,7 +79,7 @@ export default function HomePage() {
                 </Row>
             </Container>
             <OnToTop />
-            <LoadingPage isLoading={isLoading} />
+            <LoadingPage isLoading={loadingFirst} />
         </main>
     );
 }

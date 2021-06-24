@@ -7,7 +7,18 @@ export const ACT_FETCH_POST_DETAIL = `${nameSpace}ACT_FETCH_POST_DETAIL`;
 export const ACT_GET_INFO_POST_EDIT = `${nameSpace}ACT_GET_INFO_POST_EDIT`;
 export const ACT_DELETE_POST = `${nameSpace}ACT_DELETE_POST`;
 export const ACT_ACTIVE_DEACTIVE_POST = `${nameSpace}ACT_ACTIVE_DEACTIVE_POST`;
+
+export const ACT_SET_POSTS_RECENTS = `${nameSpace}ACT_SET_POSTS_RECENTS`;
+
 /**ACTION Creator */
+export const actSetPostRecent = (posts) => {
+    return {
+        type: ACT_SET_POSTS_RECENTS,
+        payload: {
+            posts,
+        },
+    };
+};
 export const actFetchListPost = ({ posts, currPage, pagesize }) => {
     return {
         type: ACT_FETCH_LIST_POST,
@@ -45,12 +56,13 @@ export const actActiveDeactivePost = ({ posts }) => {
 };
 
 /**Action ASYNC */
+
 export const actFetchListPostAsync = ({ currPage = 1, pagesize = 4 } = {}) => {
     return async (dispatch) => {
         try {
-            dispatch(actShowLoading());
+            // dispatch(actShowLoading());
             const response = await PostService.getList({ currPage, pagesize });
-            dispatch(actHideLoading());
+            // dispatch(actHideLoading());
             if (response.status === 200) {
                 const posts = response.data.posts;
                 const message = response.data.message;
@@ -316,6 +328,21 @@ export const actActiveDeactivePostAsync = ({ postid, userid }) => {
                 ok: false,
                 message: "Có lỗi xảy ra catch!",
             };
+        }
+    };
+};
+
+export const actFetchPostRecentAsync = () => {
+    return async (dispatch, getState) => {
+        const userid = getState().User.currentUser.USERID;
+        if (userid) {
+            dispatch(actShowLoading());
+            const response = await PostService.getListPostUserID({ userid });
+            dispatch(actHideLoading());
+            if (response.data.status === 200) {
+                const { posts } = response.data;
+                dispatch(actSetPostRecent(posts));
+            }
         }
     };
 };

@@ -10,11 +10,13 @@ import queryString from "query-string";
 import { useSelector, useDispatch } from "react-redux";
 import { NotificationManager } from "react-notifications";
 import { actActiveDeactivePostAsync } from "../../store/post/actions";
+import Skeleton from "react-loading-skeleton";
 //
 export default function PostItem({
     post,
     isPostDetail = false,
     isPostRecent = false,
+    isSkeletonCard = false,
     userInfo,
     ...restProps
 }) {
@@ -224,7 +226,7 @@ export default function PostItem({
                     isPostRecent ? "--post-recent" : ""
                 }`}
             >
-                {renderContent}
+                {!isSkeletonCard ? renderContent : <Skeleton count={2} />}
                 {categoryValue && (
                     <Badge variant='secondary'>#{categoryValue}</Badge>
                 )}
@@ -249,7 +251,11 @@ export default function PostItem({
 
                 <div className='ass1-section__image'>
                     <Link to={linkPostDetail}>
-                        <img src={urlImg} alt='' />
+                        {!isSkeletonCard ? (
+                            <img src={urlImg} alt='' />
+                        ) : (
+                            <Skeleton width={"110px"} height={"64px"} />
+                        )}
                     </Link>
                 </div>
             </div>

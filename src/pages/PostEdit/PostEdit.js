@@ -9,7 +9,7 @@ import {
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useCheckImageUrl } from "../../utilities/hook";
+import { useCheckImageUrl, useAuth, useUserID } from "../../utilities/hook";
 import { NotificationManager } from "react-notifications";
 import PostUploadModal from "../../components/PostUpload/PostUpload.Modal";
 import { useHistory } from "react-router-dom";
@@ -18,6 +18,8 @@ import PostEditForm from "../../components/PostEdit/PostEdit.Form";
 
 //
 export default function PostEdit() {
+    useAuth();
+    const currUserID = useUserID();
     const dispatch = useDispatch();
     const history = useHistory();
     const checkImageUrl = useCheckImageUrl;
@@ -43,8 +45,9 @@ export default function PostEdit() {
 
     // Get State from Reducer
     useEffect(() => {
+        if (!currUserID) return;
         dispatch(actFetchPostDetailAsync({ postid }));
-    }, [dispatch, postid]);
+    }, [dispatch, postid, currUserID]);
 
     // Setup local state
     useEffect(() => {

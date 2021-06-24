@@ -1,10 +1,11 @@
 import React from "react";
 import "./Post.scss";
 import PostItem from "./Post.Item";
-
 export default function PostList({ posts, ...restProps }) {
+    const classString = `ass1-section__list ${restProps.classRow || ""}`;
+
     return (
-        <div className={`ass1-section__list ${restProps.classRow || ""}`}>
+        <div className={classString.trim()}>
             {posts?.map((post, index) => {
                 return (
                     <div

@@ -9,8 +9,8 @@ export const ACT_SET_USER_DETAIL = `${nameSpace}ACT_SET_USER_DETAIL`;
 export const ACT_FETCH_LIST_MEMBER = `${nameSpace}ACT_FETCH_LIST_MEMBER`;
 export const ACT_ACTIVE_DEACTIVE_MEMBER = `${nameSpace}ACT_ACTIVE_DEACTIVE_MEMBER`;
 export const ACT_CHANGE_SEARCH_TEXT = `${nameSpace}ACT_CHANGE_SEARCH_TEXT`;
-
 export const ACT_ON_SELECT_SORT = `${nameSpace}ACT_ON_SELECT_SORT`;
+
 // Action
 export const actHandleChangeSearchText = (newText) => {
     return {
@@ -146,8 +146,8 @@ export const actFetchPostUserByIDAsync = ({ userid }) => {
                 // dispatch(actHideLoading());
 
                 if (
-                    resPostUser.data.status === 200 &&
-                    resInfoUser.data.status === 200
+                    resPostUser?.data?.status === 200 &&
+                    resInfoUser?.data?.status === 200
                 ) {
                     const user = resInfoUser.data.user;
                     const posts = resPostUser.data.posts;

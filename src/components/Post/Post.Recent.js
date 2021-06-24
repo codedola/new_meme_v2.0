@@ -1,30 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useRouteMatch } from "react-router-dom";
 import { PATHS } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
 import Card from "react-bootstrap/Card";
 import PostItem from "./Post.Item";
-import { actFetchPostUserByIDAsync } from "../../store/user/actions";
+import { actFetchPostRecentAsync } from "../../store/post/actions";
 export default function PostRecent() {
     const dispatch = useDispatch();
-    const [postsRecent, setPostsRecent] = useState([]);
     const currentUser = useSelector((state) => state.User.currentUser);
-
+    const postsRecent = useSelector((state) => state.Posts.PostRecentCurrUser);
+    const isLoading = useSelector((state) => state.App.isLoading);
+    const matchHomepage = useRouteMatch(PATHS.HOMEPAGE)?.isExact;
     useEffect(() => {
         if (!currentUser) return;
-        dispatch(
-            actFetchPostUserByIDAsync({ userid: currentUser.USERID })
-        ).then((res) => {
-            if (res.ok) {
-                const currPosts = res.posts;
-                if (currPosts.length < 5) {
-                    setPostsRecent(currPosts);
-                } else {
-                    const [post1, post2, post3, post4] = currPosts;
-                    setPostsRecent([post1, post2, post3, post4]);
-                }
-            }
-        });
+        console.log("actFetchPostRecentAsync");
+        dispatch(actFetchPostRecentAsync());
     }, [dispatch, currentUser]);
 
     return (
@@ -35,12 +25,21 @@ export default function PostRecent() {
                         <div>Bài viết gần đây của bạn</div>
                     </div>
                     <div>
-                        Vui lòng đăng nhập để xem nội dung này
-                        <Link to={PATHS.LOGIN}>Đăng nhập</Link>
+                        <p>
+                            Vui lòng{" "}
+                            <b>
+                                <Link to={PATHS.LOGIN}>đăng nhập</Link>
+                            </b>{" "}
+                            để xem nội dung này !
+                        </p>
                     </div>
                 </aside>
             ) : (
-                <div className='ass1-section__list'>
+                <div
+                    className={`ass1-section__list ${
+                        matchHomepage ? "stickySidebar" : ""
+                    }`}
+                >
                     <Card className='post__info-author'>
                         <Card.Body>
                             <Card.Text>
@@ -53,6 +52,7 @@ export default function PostRecent() {
                                         key={index}
                                         post={post}
                                         isPostRecent={true}
+                                        isSkeletonCard={isLoading}
                                     />
                                 );
                             })}

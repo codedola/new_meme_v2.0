@@ -59,7 +59,7 @@ export const actFetchListPostCategoryAsync = ({
                 pagesize,
                 tagIndex,
             });
-            console.log("response post category = ", response);
+
             if (response.data.status === 200) {
                 const posts = response.data.posts;
 

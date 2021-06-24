@@ -37,6 +37,7 @@ export const actFetchLoginAsync = ({ email, password }) => {
                 dispatch(actFetchLogin({ token }));
                 dispatch(actFetchCurrentUser({ user }));
                 Storage.setToken(token);
+
                 return {
                     ok: true,
                     message,

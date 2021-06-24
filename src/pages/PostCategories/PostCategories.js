@@ -4,6 +4,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
+
 // component app
 import LoadingPage from "../../components/Loading";
 import PostList from "../../components/Post/Post.List";
@@ -47,9 +49,23 @@ export default function PostCategories() {
                                     disabled={loadMore}
                                     onClick={!loadMore ? handleLoadMore : null}
                                 >
-                                    <span>
+                                    {/* <span>
                                         {loadMore ? "Đang tải ..." : "Xem thêm"}{" "}
-                                    </span>
+                                    </span> */}
+                                    {loadMore ? (
+                                        <>
+                                            <Spinner
+                                                as='span'
+                                                animation='border'
+                                                size='sm'
+                                                role='status'
+                                                aria-hidden='true'
+                                            />{" "}
+                                            Đang tải ...
+                                        </>
+                                    ) : (
+                                        "Xem thêm"
+                                    )}
                                 </Button>
                             ) : null}
                         </Col>

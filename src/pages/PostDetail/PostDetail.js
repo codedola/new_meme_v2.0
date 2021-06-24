@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../components/Post/Post.scss";
 //
-import { useParams, useHistory, Link } from "react-router-dom";
+import { useParams, useHistory, Link, useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { PATHS, IMAGE_DEFAULT } from "../../constants";
 // Components Library
@@ -25,6 +25,8 @@ export default function PostDetail() {
     const history = useHistory();
     const [loadPage, setLoadPage] = useState(false);
     const [isLoading, setLoading] = useState(false);
+
+    const matchPostDetail = useRouteMatch(PATHS.POST_DETAIL)?.isExact;
 
     const PostDetail = useSelector((state) => state.Posts.PostDetail);
     const currentUser = useSelector((state) => state.User.currentUser);
@@ -97,7 +99,11 @@ export default function PostDetail() {
                         </div>
                     </Col>
                     <Col lg={4}>
-                        <div className='ass1-section__list'>
+                        <div
+                            className={`ass1-section__list ${
+                                matchPostDetail ? "stickySidebar" : ""
+                            }`}
+                        >
                             <Card className='post__info-author'>
                                 <Link to={userLink}>
                                     <Card.Img

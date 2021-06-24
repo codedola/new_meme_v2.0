@@ -8,7 +8,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import { faImages, faPaw } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCheckImageUrl } from "../../utilities/hook";
+import { useCheckImageUrl, useAuth } from "../../utilities/hook";
 import { NotificationManager } from "react-notifications";
 import PostUploadModal from "../../components/PostUpload/PostUpload.Modal";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +23,7 @@ const initNewPost = {
 };
 const imageNotAvailable = "/images/no_image_available.jpg";
 export default function PostUpload() {
+    useAuth();
     // custom hook
     const dispatch = useDispatch();
     const history = useHistory();

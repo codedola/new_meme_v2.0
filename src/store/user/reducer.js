@@ -12,6 +12,7 @@ const initState = {
     currentUser: null,
     userInfo: {},
     userPosts: {},
+
     members: {
         list: [],
         // pagination
@@ -132,6 +133,7 @@ export default function userReducer(stateUser = initState, action) {
                     orderDir,
                 },
             };
+
         default:
             return stateUser;
     }

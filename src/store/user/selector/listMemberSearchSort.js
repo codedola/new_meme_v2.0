@@ -5,7 +5,7 @@ const orderDir = (state) => state.orderDir;
 const searchText = (state) => state.searchText;
 const listMembers = (state) => state.list;
 
-const listTaskSearchAndSort = createSelector(
+const listMembersSearchAndSort = createSelector(
     orderBy,
     orderDir,
     searchText,
@@ -32,4 +32,4 @@ const listTaskSearchAndSort = createSelector(
     }
 );
 
-export default listTaskSearchAndSort;
+export default listMembersSearchAndSort;
