@@ -32,6 +32,7 @@ export const actFetchLoginAsync = ({ email, password }) => {
             dispatch(actShowLoading());
             const response = await AuthService.Login({ email, password });
             dispatch(actHideLoading());
+            console.log("response login", response);
             if (response?.data?.status === 200) {
                 const { user, token, message } = response.data;
                 dispatch(actFetchLogin({ token }));
@@ -45,12 +46,12 @@ export const actFetchLoginAsync = ({ email, password }) => {
             } else {
                 return {
                     ok: false,
-                    message: response.data.error.join(" "),
+                    message: response.data.error,
                 };
             }
         } catch (error) {
             return {
-                message: "Error Login!",
+                message: "Đăng nhập thất bại !",
             };
         }
     };

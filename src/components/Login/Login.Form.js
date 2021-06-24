@@ -3,37 +3,32 @@ import { Link } from "react-router-dom";
 import { PATHS } from "../../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-const initValue = {
-    email: "",
-    password: "",
-};
-export default function LoginForm({ handleLogin }) {
-    const [initForm, setInitForm] = useState(initValue);
-    const [showPassword, setShowPassword] = useState(false);
+import { useForm } from "react-hook-form";
+// default value init
 
-    const handleOnChangeData = useCallback(
-        (keyFiled) => (e) => {
-            setInitForm({
-                ...initForm,
-                [keyFiled]: e.target.value,
-            });
-        },
-        [initForm]
-    );
+const reEmail =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+export default function LoginForm({ handleLogin }) {
+    const [showPassword, setShowPassword] = useState(false);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
     const handleShowPassword = useCallback(() => {
         setShowPassword(!showPassword);
     }, [showPassword]);
 
-    const handleSubmit = useCallback(
-        (e) => {
-            e.preventDefault();
+    const onSubmit = useCallback(
+        (initForm) => {
             const { email, password } = initForm;
             handleLogin &&
                 typeof handleLogin === "function" &&
                 handleLogin({ email, password });
         },
-        [initForm, handleLogin]
+        [handleLogin]
     );
     return (
         <div className='ass1-login__content'>
@@ -45,23 +40,37 @@ export default function LoginForm({ handleLogin }) {
                             type='text'
                             className='form-control'
                             placeholder='Email'
-                            onChange={handleOnChangeData("email")}
-                            value={initForm.email}
-                            required
-                        />
-                        <span className='message'></span>
+                            {...register("email", {
+                                required: true,
+                                pattern: reEmail,
+                            })}
+                        />{" "}
+                        {errors?.email?.type === "required" && (
+                            <span className='message'>
+                                Yêu cầu nhập trường này !
+                            </span>
+                        )}
+                        {errors?.email?.type === "pattern" && (
+                            <span className='message'>
+                                email không hợp lệ !
+                            </span>
+                        )}
                     </div>
                     <div className='ass1-login__control'>
                         <input
                             type={showPassword ? "text" : "password"}
-                            onChange={handleOnChangeData("password")}
-                            value={initForm.password}
                             className='form-control'
                             placeholder='Mật khẩu'
-                            required
-                            autoComplete='off'
+                            {...register("password", {
+                                required: true,
+                            })}
                         />
-                        <span className='message'></span>
+                        {errors?.password?.type === "required" && (
+                            <span className='message'>
+                                Yêu cầu nhập trường này !
+                            </span>
+                        )}
+
                         <FontAwesomeIcon
                             onClick={handleShowPassword}
                             icon={showPassword ? faEyeSlash : faEye}
@@ -72,7 +81,7 @@ export default function LoginForm({ handleLogin }) {
                         <button
                             type='submit'
                             className='ass1-btn'
-                            onClick={handleSubmit}
+                            onClick={handleSubmit(onSubmit)}
                         >
                             Đăng nhập
                         </button>

@@ -7,13 +7,8 @@ import { useDispatch } from "react-redux";
 import { actChangePasswordAsync } from "../../store/auth/actions";
 import { useAuth } from "../../utilities/hook";
 import { NotificationManager } from "react-notifications";
+import { useForm } from "react-hook-form";
 
-//
-const initPassword = {
-    oldPassword: "",
-    newPassword: "",
-    reNewPassword: "",
-};
 export default function ChangePassWord() {
     useAuth();
     const dispatch = useDispatch();
@@ -22,17 +17,12 @@ export default function ChangePassWord() {
         new: false,
         reNew: false,
     });
-    const [passwordInfo, setPasswordInfo] = useState(initPassword);
 
-    const onChangeData = useCallback(
-        (keyField) => (e) => {
-            setPasswordInfo({
-                ...passwordInfo,
-                [keyField]: e.target.value,
-            });
-        },
-        [passwordInfo]
-    );
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
     const handleShowValue = useCallback(
         (keyField) => () => {
@@ -44,18 +34,26 @@ export default function ChangePassWord() {
         [showValue]
     );
 
-    const handleChangePassword = useCallback(() => {
-        const { oldPassword, newPassword, reNewPassword } = passwordInfo;
-        dispatch(
-            actChangePasswordAsync({ oldPassword, newPassword, reNewPassword })
-        ).then((res) => {
-            if (res.ok) {
-                NotificationManager.success(res.message, null, 1000);
-            } else {
-                NotificationManager.error(res.message, null, 1000);
-            }
-        });
-    }, [passwordInfo, dispatch]);
+    const handleChangePassword = useCallback(
+        (passwordInfo) => {
+            const { oldPassword, newPassword, reNewPassword } = passwordInfo;
+
+            dispatch(
+                actChangePasswordAsync({
+                    oldPassword,
+                    newPassword,
+                    reNewPassword,
+                })
+            ).then((res) => {
+                if (res.ok) {
+                    NotificationManager.success(res.message, null, 1000);
+                } else {
+                    NotificationManager.error(res.message, null, 1000);
+                }
+            });
+        },
+        [dispatch]
+    );
 
     //
     return (
@@ -68,12 +66,17 @@ export default function ChangePassWord() {
                             <div className='form__group'>
                                 <input
                                     type={showValue.old ? "text" : "password"}
-                                    value={passwordInfo.oldPassword}
-                                    onChange={onChangeData("oldPassword")}
                                     className='form-control'
                                     placeholder='Mật khẩu cũ'
-                                    required
+                                    {...register("oldPassword", {
+                                        required: true,
+                                    })}
                                 />
+                                {errors?.oldPassword?.type === "required" && (
+                                    <span className='message'>
+                                        Yêu cầu nhập trường này !
+                                    </span>
+                                )}
 
                                 <FontAwesomeIcon
                                     onClick={handleShowValue("old")}
@@ -83,12 +86,17 @@ export default function ChangePassWord() {
                             <div className='form__group'>
                                 <input
                                     type={showValue.new ? "text" : "password"}
-                                    value={passwordInfo.newPassword}
-                                    onChange={onChangeData("newPassword")}
                                     className='form-control'
                                     placeholder='Mật khẩu mới'
-                                    required
+                                    {...register("newPassword", {
+                                        required: true,
+                                    })}
                                 />
+                                {errors?.newPassword?.type === "required" && (
+                                    <span className='message'>
+                                        Yêu cầu nhập trường này !
+                                    </span>
+                                )}
                                 <FontAwesomeIcon
                                     onClick={handleShowValue("new")}
                                     icon={showValue.new ? faEyeSlash : faEye}
@@ -98,12 +106,17 @@ export default function ChangePassWord() {
                             <div className='form__group'>
                                 <input
                                     type={showValue.reNew ? "text" : "password"}
-                                    value={passwordInfo.reNewPassword}
-                                    onChange={onChangeData("reNewPassword")}
                                     className='form-control'
                                     placeholder='Xác nhận mật khẩu mới'
-                                    required
+                                    {...register("reNewPassword", {
+                                        required: true,
+                                    })}
                                 />
+                                {errors?.reNewPassword?.type === "required" && (
+                                    <span className='message'>
+                                        Yêu cầu nhập trường này !
+                                    </span>
+                                )}
                                 <FontAwesomeIcon
                                     onClick={handleShowValue("reNew")}
                                     icon={showValue.reNew ? faEyeSlash : faEye}
@@ -113,7 +126,7 @@ export default function ChangePassWord() {
                             <div className='ass1-login__send justify-content-center'>
                                 <Button
                                     variant='primary'
-                                    onClick={handleChangePassword}
+                                    onClick={handleSubmit(handleChangePassword)}
                                 >
                                     Đổi mật khẩu
                                 </Button>

@@ -9,8 +9,11 @@ import { actRegisterAsync } from "../../store/auth/actions";
 import { PATHS } from "../../constants";
 import LoadPage from "../../components/Loading";
 import { NotificationManager } from "react-notifications";
+import { useForm } from "react-hook-form";
+
+const reEmail =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 //
-const initRegister = { email: "", fullname: "", password: "", repassword: "" };
 export default function Register() {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -18,8 +21,11 @@ export default function Register() {
         new: false,
         reNew: false,
     });
-
-    const [registerInfo, setRegisterInfo] = useState(initRegister);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
     const isLoading = useSelector((state) => state.App.isLoading);
 
@@ -33,30 +39,27 @@ export default function Register() {
         [showValue]
     );
 
-    const onChangeData = useCallback(
-        (keyField) => (e) => {
-            setRegisterInfo({
-                ...registerInfo,
-                [keyField]: e.target.value,
+    const handleRegister = useCallback(
+        (registerInfo) => {
+            const { email, fullname, password, repassword } = registerInfo;
+
+            dispatch(
+                actRegisterAsync({ email, fullname, password, repassword })
+            ).then((res) => {
+                if (res.ok) {
+                    NotificationManager.success(
+                        "Đăng ký thành công",
+                        null,
+                        600
+                    );
+                    history.push(PATHS.LOGIN);
+                } else {
+                    NotificationManager.error(res.message, null, 600);
+                }
             });
         },
-        [registerInfo]
+        [dispatch, history]
     );
-
-    const handleRegister = useCallback(() => {
-        const { email, fullname, password, repassword } = registerInfo;
-        dispatch(
-            actRegisterAsync({ email, fullname, password, repassword })
-        ).then((res) => {
-            setRegisterInfo(initRegister);
-            if (res.ok) {
-                NotificationManager.success("Đăng ký thành công", null, 600);
-                history.push(PATHS.LOGIN);
-            } else {
-                NotificationManager.error(res.message, null, 600);
-            }
-        });
-    }, [registerInfo, dispatch, history]);
 
     //
     return (
@@ -69,32 +72,59 @@ export default function Register() {
                             <div className='form__group'>
                                 <input
                                     type='text'
-                                    value={registerInfo.fullname}
-                                    onChange={onChangeData("fullname")}
                                     className='form-control'
                                     placeholder='Tên hiển thị'
-                                    required
+                                    {...register("fullname", {
+                                        required: true,
+                                    })}
                                 />
+                                {errors?.fullname?.type === "required" && (
+                                    <span className='message'>
+                                        Yêu cầu nhập trường này !
+                                    </span>
+                                )}
                             </div>
                             <div className='form__group'>
                                 <input
                                     type='email'
-                                    value={registerInfo.email}
-                                    onChange={onChangeData("email")}
                                     className='form-control'
                                     placeholder='Email'
-                                    required
+                                    {...register("email", {
+                                        required: true,
+                                        pattern: reEmail,
+                                    })}
                                 />
+                                {errors?.email?.type === "required" && (
+                                    <span className='message'>
+                                        Yêu cầu nhập trường này !
+                                    </span>
+                                )}
+                                {errors?.email?.type === "pattern" && (
+                                    <span className='message'>
+                                        email không hợp lệ !
+                                    </span>
+                                )}
                             </div>
                             <div className='form__group'>
                                 <input
                                     type={showValue.new ? "text" : "password"}
-                                    value={registerInfo.password}
-                                    onChange={onChangeData("password")}
                                     className='form-control'
                                     placeholder='Mật khẩu'
-                                    required
+                                    {...register("password", {
+                                        required: true,
+                                        minLength: 6,
+                                    })}
                                 />
+                                {errors?.password?.type === "required" && (
+                                    <span className='message'>
+                                        Yêu cầu nhập trường này !
+                                    </span>
+                                )}
+                                {errors?.password?.type === "minLength" && (
+                                    <span className='message'>
+                                        Mật khẩu ít nhất 6 ký tự !
+                                    </span>
+                                )}
                                 <FontAwesomeIcon
                                     onClick={handleShowValue("new")}
                                     icon={showValue.new ? faEyeSlash : faEye}
@@ -103,12 +133,17 @@ export default function Register() {
                             <div className='form__group'>
                                 <input
                                     type={showValue.reNew ? "text" : "password"}
-                                    value={registerInfo.repassword}
-                                    onChange={onChangeData("repassword")}
                                     className='form-control'
                                     placeholder='Nhập lại mật khẩu'
-                                    required
+                                    {...register("repassword", {
+                                        required: true,
+                                    })}
                                 />
+                                {errors?.repassword?.type === "required" && (
+                                    <span className='message'>
+                                        Yêu cầu nhập trường này !
+                                    </span>
+                                )}
                                 <FontAwesomeIcon
                                     onClick={handleShowValue("reNew")}
                                     icon={showValue.reNew ? faEyeSlash : faEye}
@@ -119,7 +154,7 @@ export default function Register() {
                                 <Link to={PATHS.LOGIN}>Đăng nhập</Link>
                                 <Button
                                     variant='primary'
-                                    onClick={handleRegister}
+                                    onClick={handleSubmit(handleRegister)}
                                 >
                                     Đăng ký
                                 </Button>
