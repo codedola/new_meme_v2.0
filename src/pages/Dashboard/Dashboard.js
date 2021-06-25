@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import "./dashboard.scss";
 //
 import Container from "react-bootstrap/Container";
@@ -8,7 +8,6 @@ import Button from "react-bootstrap/Button";
 import DashboardForm from "../../components/Dashboard/Dashboard.Form";
 import DashboardTable from "../../components/Dashboard/Dashboard.Table";
 import DashboardModal from "../../components/Dashboard/Dashboard.Modal";
-import LoadPage from "../../components/Loading";
 import OnToTop from "../../components/OnToTop";
 //
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +16,6 @@ import { useAdmin } from "../../utilities/hook";
 export default function Dashboard() {
     useAdmin();
     const dispatch = useDispatch();
-    const [isLoadPage, setIsLoadPage] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [userEdit, setUserEdit] = useState(null);
     //
@@ -26,14 +24,6 @@ export default function Dashboard() {
     const list = members.list;
     const page = members.currPage;
     const total = members.total;
-
-    useEffect(() => {
-        if (list.length > 0) return;
-        setIsLoadPage(true);
-        dispatch(actFetchListMemberAsync()).finally(() => {
-            setIsLoadPage(false);
-        });
-    }, [dispatch, list]);
 
     const handleLoadMoreMember = useCallback(() => {
         if (isLoading) return;
@@ -81,7 +71,6 @@ export default function Dashboard() {
 
             <DashboardModal {...propsDashboardModal} />
             <OnToTop />
-            <LoadPage isLoading={isLoadPage} />
         </Container>
     );
 }

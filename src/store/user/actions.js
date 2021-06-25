@@ -189,7 +189,7 @@ export const actUpdateProfileAsync = ({
 };
 
 export const actFetchListMemberAsync = ({
-    pagesize = 10,
+    pagesize = 100,
     currPage = 1,
     ...restParams
 } = {}) => {
@@ -226,9 +226,11 @@ export const actActiveDeactiveUserAsync = ({ userid, currentStatus }) => {
         try {
             dispatch(actShowLoading());
             const response = await UserService.activeDeactiveUser({ userid });
+
             dispatch(actHideLoading());
             if (response?.data?.status === 200) {
                 dispatch(actActiveDeactiveMember({ userid, currentStatus }));
+
                 return {
                     ok: true,
                     message: response.data.message,

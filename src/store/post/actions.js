@@ -8,10 +8,10 @@ export const ACT_FETCH_POST_DETAIL = `${nameSpace}ACT_FETCH_POST_DETAIL`;
 export const ACT_GET_INFO_POST_EDIT = `${nameSpace}ACT_GET_INFO_POST_EDIT`;
 export const ACT_DELETE_POST = `${nameSpace}ACT_DELETE_POST`;
 export const ACT_ACTIVE_DEACTIVE_POST = `${nameSpace}ACT_ACTIVE_DEACTIVE_POST`;
-
 export const ACT_SET_POSTS_RECENTS = `${nameSpace}ACT_SET_POSTS_RECENTS`;
-
 /**ACTION Creator */
+
+
 export const actSetPostRecent = (posts) => {
     return {
         type: ACT_SET_POSTS_RECENTS,
@@ -58,7 +58,7 @@ export const actActiveDeactivePost = ({ posts }) => {
 
 /**Action ASYNC */
 
-export const actFetchListPostAsync = ({ currPage = 1, pagesize = 4 } = {}) => {
+export const actFetchListPostAsync = ({ currPage = 1, pagesize = 5 } = {}) => {
     return async (dispatch) => {
         try {
             // dispatch(actShowLoading());
@@ -161,7 +161,7 @@ export const actCreateNewPostAsync = ({
     obj_image,
     ...resData
 }) => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
         try {
             dispatch(actShowLoading());
 
@@ -181,6 +181,18 @@ export const actCreateNewPostAsync = ({
             if (response?.data?.status === 200) {
                 const { message, data } = response.data;
                 const { post, categories } = data;
+
+                const res = await PostService.getListPostUserID({
+                    userid: post?.USERID,
+                });
+
+                dispatch(
+                    actSetUserDetailData({
+                        userInfo: getState().User.userInfo[post?.USERID],
+                        userPosts:
+                            res?.data?.status === 200 ? res.data.posts : null,
+                    })
+                );
 
                 return {
                     ok: true,
@@ -235,12 +247,12 @@ export const actEditPostAsync = ({
                 const { post, categories } = data;
 
                 const res = await PostService.getListPostUserID({
-                    userid: post.USERID,
+                    userid: post?.USERID,
                 });
 
                 dispatch(
                     actSetUserDetailData({
-                        userInfo: getState().User.userInfo[post.USERID],
+                        userInfo: getState().User.userInfo[post?.USERID],
                         userPosts:
                             res?.data?.status === 200 ? res.data.posts : null,
                     })

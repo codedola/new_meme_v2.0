@@ -1,0 +1,33 @@
+.loading-change_page{
+    position: fixed;
+    z-index: 100001;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.932);
+    opacity: 0;
+    visibility: hidden;
+    p {
+        position: absolute;
+        top: 46%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        font-size: 22px;
+        font-weight: 400;
+        letter-spacing: -1px;
+        color: rgb(51, 51, 51);
+    }
+    &.show {
+        opacity: 1;
+        visibility: visible;
+    }
+    svg {
+        width: 180px;
+        height: 180px;
+        margin: auto;
+        display: block;
+    }
+}

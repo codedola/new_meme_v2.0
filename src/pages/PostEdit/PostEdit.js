@@ -15,6 +15,7 @@ import PostUploadModal from "../../components/PostUpload/PostUpload.Modal";
 import { useHistory } from "react-router-dom";
 import { PATHS } from "../../constants";
 import PostEditForm from "../../components/PostEdit/PostEdit.Form";
+import LoadingChange from "../../components/LoadingChange";
 
 //
 export default function PostEdit() {
@@ -30,6 +31,7 @@ export default function PostEdit() {
 
     // useState
     const [show, setShow] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
     const [postEdit, setPostEdit] = useState({});
     const [categoriesPostEdit, setCategoriesPostEdit] = useState([]);
 
@@ -129,6 +131,7 @@ export default function PostEdit() {
     const handleUploadEditPost = () => {
         const { postid, category, post_content, obj_image, url_image } =
             postEdit;
+        setIsEdit(true);
         dispatch(
             actEditPostAsync({
                 postid,
@@ -138,6 +141,7 @@ export default function PostEdit() {
                 url_image,
             })
         ).then((res) => {
+            setIsEdit(false);
             if (res.ok) {
                 NotificationManager.success(res.message, null, 600);
                 history.push(PATHS.POST_DETAIL.replace(":post_id", postid));
@@ -172,6 +176,10 @@ export default function PostEdit() {
                 handleClose={handleClose}
                 categoriesPostEdit={categoriesPostEdit}
                 getCategoriesNewPost={getCategoriesNewPost}
+            />
+            <LoadingChange
+                isLoading={isLoading}
+                text={isEdit ? "Đang chỉnh sửa ..." : "Đang tải ..."}
             />
         </Container>
     );

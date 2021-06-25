@@ -15,6 +15,7 @@ const initState = {
 
     members: {
         list: [],
+        usersDeactive: [],
         // pagination
         pagesize: 0,
         currPage: 1,
@@ -43,12 +44,12 @@ export default function userReducer(stateUser = initState, action) {
             return {
                 ...stateUser,
                 userInfo: {
-                    [userInfo.USERID]: userInfo,
+                    [userInfo?.USERID]: userInfo,
                 },
                 userPosts: {
-                    [userInfo.USERID]: userPosts
+                    [userInfo?.USERID]: userPosts
                         ? userPosts
-                        : stateUser.userPosts[userInfo.USERID],
+                        : stateUser.userPosts[userInfo?.USERID],
                 },
             };
         case ACT_DELETE_POST:

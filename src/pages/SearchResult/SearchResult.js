@@ -41,7 +41,13 @@ export default function SearchResult() {
                 (res) => {
                     if (res.ok) {
                         setPosts(res.posts);
-                        NotificationManager.success(res.message, null, 1800);
+                        if (res.posts.length > 0) {
+                            NotificationManager.success(
+                                res.message,
+                                null,
+                                1800
+                            );
+                        }
                     } else {
                         NotificationManager.error(res.message, null, 600);
                     }

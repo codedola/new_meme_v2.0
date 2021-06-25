@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { PATHS } from "../../constants";
 import { actCreateNewPostAsync } from "../../store/post/actions";
+import LoadingChange from "../../components/LoadingChange";
 //
 const initNewPost = {
     obj_image: "",
@@ -184,9 +185,7 @@ export default function PostUpload() {
                                 onClick={isLoading ? null : handleCreateNewPost}
                                 className='post-upload__btn'
                             >
-                                {isLoading
-                                    ? "Đang đăng bài ..."
-                                    : "Đăng bài viết"}
+                                Đăng bài viết
                             </Button>
                         </div>
                     </div>
@@ -197,6 +196,7 @@ export default function PostUpload() {
                 handleClose={handleClose}
                 getCategoriesNewPost={getCategoriesNewPost}
             />
+            <LoadingChange isLoading={isLoading} text='Đang tải bài viết ...' />
         </Container>
     );
 }
