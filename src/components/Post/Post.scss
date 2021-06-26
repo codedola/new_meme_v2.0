@@ -310,7 +310,9 @@ $breakpoint-tablet: 768px;
         top: 20px;
     }
     .post__info-author.card {
-         
+         border: unset;
+         border-radius: 6px;
+         box-shadow: 0px 1px 2px 1px rgba(235, 235, 235, 0.308);
         a {
             display: flex;
             justify-content: center;

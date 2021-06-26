@@ -28,15 +28,18 @@ export default function HomePage() {
     });
 
     useEffect(() => {
+        if (currentUser?.permission === "admin") {
+            dispatch(actFetchListMemberAsync());
+        }
+    }, [currentUser, dispatch]);
+
+    useEffect(() => {
         if (posts.length > 0) return;
         setLoadingFirst(true);
         dispatch(actFetchListPostAsync()).finally(() => {
             setLoadingFirst(false);
         });
-        if (currentUser?.permission === "admin") {
-            dispatch(actFetchListMemberAsync());
-        }
-    }, [dispatch, posts, currentUser]);
+    }, [dispatch, posts]);
 
     const listPostActiveAdmin = useMemo(() => {
         if (posts) {
@@ -44,13 +47,12 @@ export default function HomePage() {
             const usersDeactive = members.filter((user) => user.status === "0");
 
             for (let user of usersDeactive) {
-                listFilterActive = listFilterActive
-                    .filter((post) => {
-                        return post.USERID !== user.USERID;
-                    })
-                    .filter((post) => post.status === "1");
+                listFilterActive = listFilterActive.filter((post) => {
+                    return post.USERID !== user.USERID;
+                });
             }
-            return listFilterActive;
+
+            return listFilterActive.filter((post) => post.status === "1");
         }
         return [];
     }, [posts, members]);

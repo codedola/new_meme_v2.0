@@ -5,14 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "../../utilities/hook";
 import { NotificationManager } from "react-notifications";
 import { actDeletePostAsync } from "../../store/post/actions";
-import LoadPage from "../../components/Loading";
 import { useParams, useHistory } from "react-router-dom";
 import { PATHS } from "../../constants";
+import { EMAIL_VALIDATOR } from "../../constants/FormValidator";
 import { useForm } from "react-hook-form";
+import LoadingChange from "../../components/LoadingChange";
 // default value init
 
-const reEmail =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export default function PostDelete() {
     useAuth();
     const postid = useParams().post_id;
@@ -62,17 +61,17 @@ export default function PostDelete() {
                                     placeholder='Nhập email của bạn'
                                     {...register("email", {
                                         required: true,
-                                        pattern: reEmail,
+                                        pattern: EMAIL_VALIDATOR.pattern,
                                     })}
                                 />
                                 {errors?.email?.type === "required" && (
                                     <span className='message'>
-                                        Yêu cầu nhập trường này !
+                                        {EMAIL_VALIDATOR.messInvalid}
                                     </span>
                                 )}
                                 {errors?.email?.type === "pattern" && (
                                     <span className='message'>
-                                        email không hợp lệ !
+                                        {EMAIL_VALIDATOR.messInvalid}
                                     </span>
                                 )}
                             </div>
@@ -89,7 +88,7 @@ export default function PostDelete() {
                     </div>
                 </div>
             </div>
-            <LoadPage isLoading={isLoading} />
+            <LoadingChange isLoading={isLoading} text={"Đang xóa ..."} />
         </main>
     );
 }
