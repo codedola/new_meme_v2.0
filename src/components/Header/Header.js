@@ -33,19 +33,15 @@ export default function Header() {
             <div className='ass1-header'>
                 <Container className='header__container'>
                     <LogoApp />
-                    {!matchAdmin ? (
-                        <>
-                            <HeaderNav />
-                            <HeaderSearch />
+                    <div style={{ display: "flex" }}>
+                        <HeaderSearch />
+                    </div>
 
-                            <Link
-                                to={PATHS.POST_CREATE}
-                                className='header__btn'
-                            >
-                                <Icons.Upload /> Upload
-                            </Link>
-                        </>
-                    ) : null}
+                    <HeaderNav />
+
+                    <Link to={PATHS.POST_CREATE} className='header__btn'>
+                        <Icons.Upload /> Upload
+                    </Link>
 
                     {isAdmin ? (
                         <Link

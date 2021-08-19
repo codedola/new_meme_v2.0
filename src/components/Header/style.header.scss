@@ -16,7 +16,7 @@ $heghtHeader: 70px;
 
 header {
     .ass1-header {
-        height: $heghtHeader;
+        min-height: $heghtHeader;
         .header__container {
             justify-content: flex-start;
             a.ass1-logo {
