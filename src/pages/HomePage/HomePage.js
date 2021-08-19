@@ -76,16 +76,13 @@ export default function HomePage() {
                                     : listPostActiveUser
                             }
                         />
-                        {!isLoadMore ? (
+                        {!isLoadMore || posts.length > 0 ? (
                             <Button
                                 variant='outline-secondary'
                                 className='load-more'
                                 disabled={loadMore}
                                 onClick={!loadMore ? handleLoadMore : null}
                             >
-                                {/* <span>
-                                    {loadMore ? "Đang tải ..." : "Xem thêm"}
-                                </span> */}
                                 {loadMore ? (
                                     <>
                                         <Spinner
