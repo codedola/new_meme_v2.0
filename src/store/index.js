@@ -7,7 +7,7 @@ let thunkItems = [];
 if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
     thunkItems.push(logger);
 } else {
-    // production code
+    thunkItems = [];
 }
 const Store = createStore(
     rootReducers,

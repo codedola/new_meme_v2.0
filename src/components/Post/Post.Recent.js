@@ -13,7 +13,6 @@ export default function PostRecent() {
     const matchHomepage = useRouteMatch(PATHS.HOMEPAGE)?.isExact;
     useEffect(() => {
         if (!currentUser) return;
-        console.log("actFetchPostRecentAsync");
         dispatch(actFetchPostRecentAsync());
     }, [dispatch, currentUser]);
 
