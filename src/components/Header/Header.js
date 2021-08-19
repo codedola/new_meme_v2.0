@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import "./style.header.scss";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { PATHS } from "../../constants";
 import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -15,7 +15,6 @@ export default function Header() {
     const userid = useUserID();
     const Icons = useIcons();
     const dispatch = useDispatch();
-    const matchAdmin = useRouteMatch(PATHS.ADMIN_DASHBOARD);
     const currentUser = useSelector((state) => state.User.currentUser);
     const isAdmin = currentUser?.permission === "admin";
     useEffect(() => {
