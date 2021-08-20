@@ -1,16 +1,8 @@
 import axios from "axios";
 import Storage from "../utilities/Storage";
 
-let BASE_URL = "";
-if (
-    process.env.NODE_ENV === "development" &&
-    window.location.protocol === "http:"
-) {
-    BASE_URL = `http://api-meme-zendvn-01.herokuapp.com/api`;
-} else {
-    // production code
-    BASE_URL = `https://api-meme-zendvn-01.herokuapp.com/api`;
-}
+const BASE_URL = `${window.location.protocol}//api-meme-zendvn-01.herokuapp.com/api`;
+
 const api = {
     call() {
         return axios.create({
