@@ -14,11 +14,7 @@ import PostDelete from "../pages/PostDelete";
 import Dashboard from "../pages/Dashboard";
 //
 const ROUTERS = [
-    {
-        path: PATHS.HOMEPAGE,
-        exact: true,
-        Component: HomePage,
-    },
+    
     {
         path: PATHS.LOGIN,
         exact: true,
@@ -78,6 +74,11 @@ const ROUTERS = [
         path: PATHS.ADMIN_DASHBOARD,
         exact: true,
         Component: Dashboard,
+    },
+    {
+        path: PATHS.HOMEPAGE,
+        exact: false,
+        Component: HomePage,
     },
 ];
 export default ROUTERS;
